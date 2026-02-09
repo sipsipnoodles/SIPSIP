@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sip Sip Noodles - Swaad Bhi, Sehat Bhi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="preload" as="image" href="https://img.sanishtech.com/u/8b0be17f2115609172a56d69a7ed89cc.png">
+
+    <style>
+        :root {
+            --primary-red: #D32F2F;
+            --primary-yellow: #FFC107;
+            --dark-text: #333;
+            --light-bg: #fff;
+            --whatsapp-green: #25D366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        /* --- LOADING SCREEN STYLES --- */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+
+        .loader-logo {
+            height: 150px;
+            transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
+            filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.15));
+        }
+
+        body.loaded .loader-wrapper {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        body.loaded .loader-logo {
+            transform: scale(0.4) translateY(-250%); 
+            opacity: 0;
+        }
+        /* ----------------------------------- */
+
+        /* Navigation */
+        nav {
+            background: #fff;
+            padding: 0.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* --- LOGO REFORMED --- */
+        .logo img {
+            height: 70px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+            transition: transform 0.3s;
+        }
+        
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+        /* ---------------------------------- */
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            margin-left: 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .cta-btn {
+            background: var(--primary-red);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .cta-btn:hover {
+            background: #b71c1c;
+        }
+
+        /* Hero Section */
+        .hero-container {
+            position: relative;
+            height: 85vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--primary-red);
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover; 
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); 
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            color: white;
+            padding: 20px;
+            max-width: 800px;
+            margin-top: 100px; 
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--primary-yellow);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+        }
+
+        .hero h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 10%;
+            text-align: center;
+            background: #f9f9f9;
+        }
+
+        .about h2 {
+            color: var(--primary-red);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .about p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* Product Section */
+        .product {
+            padding: 80px 10%;
+            text-align: center;
+        }
+
+        .product-card {
+            background: white;
+            border: 2px solid var(--primary-yellow);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 40px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-img {
+            width: 100%;
+            max-width: 250px;
+            margin-bottom: 20px;
+            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .veg-mark {
+            color: green;
+            border: 2px solid green;
+            padding: 2px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 2rem;
+            color: var(--primary-red);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Features */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 10%;
+            background: var(--primary-red);
+            color: white;
+            flex-wrap: wrap;
+        }
+
+        .feature-box {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .feature-box i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-yellow);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 80px 10%;
+            background: #222;
+            color: white;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-item-link {
+            text-decoration: none;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .contact-item-link:hover {
+            color: var(--primary-yellow);
+            transform: scale(1.05);
+        }
+
+        .whatsapp-link:hover {
+            color: var(--whatsapp-green);
+        }
+
+        .contact-item {
+            color: white;
+            margin: 10px;
+            min-width: 150px;
+        }
+
+        .contact-item i {
+            color: var(--primary-yellow);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 2rem;
+            margin-top: 20px;
+            display: inline-block;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        
+        .social-link:hover {
+            color: #E1306C;
+            transform: scale(1.2);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero h2 { font-size: 1.2rem; }
+            .nav-links { display: none; }
+            .logo img { height: 50px; }
+            .hero-container { height: 60vh; } 
+            .hero-content { margin-top: 0; }
+            .loader-logo { height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader-wrapper">
+        <img src="https://img.sanishtech.com/u/69342de2fc4719b8127b5c2bbb93e8eb.webp" alt="Loading Logo" class="loader-logo">
+    </div>
+
+    <nav>
+        <div class="logo">
+            <img src="https://img.sanishtech.com/u/69342de2fc4719b8127b5c2bbb93e8eb.webp" alt="Sip Sip Noodles Logo">
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#product">Product</a>
+            <a href="#contact" class="cta-btn">Contact Us</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-container">
+        <div class="hero-slide active" style="background-image: url('https://img.sanishtech.com/u/8b0be17f2115609172a56d69a7ed89cc.png');"></div>
+        <div class="hero-slide" style="background-image: url('https://img.sanishtech.com/u/73ddbd5e9d0fa44c3577861da88f1e55.png');"></div>
+        <div class="hero-slide" style="background-image: url('https://img.sanishtech.com/u/8d4132b94d470a2642666a4142bc28bd.png');"></div>
+        <div class="hero-slide" style="background-image: url('https://img.sanishtech.com/u/a6901dcbe039425252c8bc33d3b6d8f6.png');"></div>
+        
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h1>Sip Sip Noodles</h1>
+            <h2>"Sip Sip Karke Khao!"</h2>
+            <p><strong>Swaad Bhi, Sehat Bhi.</strong> <br> Ab bhook mitayein bas 2 minute mein.</p>
+            <a href="#product" class="cta-btn">Try Now</a>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <h2>Humari Kahani</h2>
+        <p>
+            Swagat hai <strong>Sip Sip Noodles</strong> mein! <br><br>
+            Abhi haal hi mein shuru hui hamari ye company ek hi mission ke saath aayi hai - 
+            aap tak sabse tasty aur quality noodles pahunchana. 
+            Hamare founder, <strong>Mr. Kamal Bansal</strong> ka manna hai ki achha khana sabka haq hai.
+            Chahe aap school mein hon, office mein, ya ghar par late night craving ho, 
+            Sip Sip Noodles hamesha aapka saathi hai.
+        </p>
+    </section>
+
+    <section id="product" class="product">
+        <h2>Hamara Star Product</h2>
+        <div class="product-card">
+            <div class="veg-mark"><i class="fas fa-circle" style="font-size: 10px;"></i></div>
+            <img src="https://img.sanishtech.com/u/82141440c90f382453d45befbac3380f.png" alt="Masala Noodles Pack" class="product-img">
+            <h3>Masala Instant Noodles</h3>
+            <p>Zabardast Masala flavour jo mood bana de.</p>
+            <p><strong>Size:</strong> 70g</p>
+            <div class="price">₹ 10</div>
+            <a href="#contact" class="cta-btn" style="display: inline-block; margin-top: 10px;">Order Inquiry</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-box">
+            <i class="fas fa-clock"></i>
+            <h3>Instant Ready</h3>
+            <p>Bas ubaalo aur khao</p>
+        </div>
+        <div class="feature-box">
+            <i class="fas fa-utensils"></i>
+            <h3>Best Taste</h3>
+            <p>Asli masalo ka swaad</p>
+        </div>
+        <div class="feature-box">
+            <i class="fas fa-check-circle"></i>
+            <h3>Quality</h3>
+            <p>100% Veg & Fresh</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <p>Distributorship ya bulk order ke liye sampark karein.</p>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>VPO Fransi, Adampur Road,<br>Agroha (Hisar), Haryana</p>
+            </div>
+
+            <div class="contact-item">
+                <a href="tel:+917014258374" class="contact-item-link">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>+91 7014258374</p>
+                </a>
+            </div>
+
+            <div class="contact-item">
+                <a href="https://wa.me/917014258374" target="_blank" class="contact-item-link whatsapp-link">
+                    <i class="fab fa-whatsapp"></i>
+                    <p>WhatsApp Chat</p>
+                </a>
+            </div>
+
+            <div class="contact-item">
+                <a href="mailto:sipsipnoodles00@gmail.com" class="contact-item-link">
+                    <i class="fas fa-envelope"></i>
+                    <p>sipsipnoodles00@gmail.com</p>
+                </a>
+            </div>
+        </div>
+
+        <a href="https://www.instagram.com/official_sipsipnoodles?igsh=OGEzMHVpcmRleGM=" target="_blank" class="social-link">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <p style="margin-top:10px;">Follow us on Instagram</p>
+        
+        <div style="margin-top: 40px; font-size: 0.8rem; opacity: 0.7;">
+            © 2026 Sip Sip Noodles. All Rights Reserved.
+        </div>
+    </section>
+
+    <script>
+        // LOADING SCREEN LOGIC
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 2000);
+        });
+
+        // Slideshow Logic
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+
+        function changeSlide() {
+            if (slides.length > 0) {
+                slides[slideIndex].classList.remove('active');
+                slideIndex = (slideIndex + 1) % slides.length;
+                slides[slideIndex].classList.add('active');
+            }
+        }
+        setInterval(changeSlide, 3500);
+    </script>
+
+</body>
+</html>
