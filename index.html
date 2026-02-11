@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sip Sip Noodles - Swaad Bhi, Sehat Bhi</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="preload" as="image" href="poster1.png">
-
     <style>
         :root {
             --primary-red: #D32F2F;
+            --dark-red: #8b0000;
             --primary-yellow: #FFC107;
             --dark-text: #333;
             --light-bg: #fff;
@@ -30,131 +30,112 @@
             line-height: 1.6;
             color: var(--dark-text);
             overflow-x: hidden;
+            background-color: #fff;
         }
 
-        /* --- LOADING SCREEN STYLES --- */
+        /* --- LUXURY LOADING SCREEN --- */
         .loader-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background-color: #ffffff;
+            /* Premium Dark Gradient - Aankhon ko chubega nahi */
+            background: radial-gradient(circle, #2c0000 0%, #000000 100%);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+            z-index: 99999;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
         }
 
         .loader-logo {
-            height: 150px;
-            transition: transform 1s ease-in-out, opacity 0.8s ease-in-out;
-            filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.15));
+            height: 160px;
+            filter: drop-shadow(0 0 20px rgba(255, 193, 7, 0.3));
+            animation: logoEntrance 2.5s infinite ease-in-out;
+            will-change: transform, filter;
         }
 
+        @keyframes logoEntrance {
+            0% { transform: scale(0.9); filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.2)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(255, 191, 0, 0.6)); }
+            100% { transform: scale(0.9); filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.2)); }
+        }
+
+        /* Curtain Exit Animation */
         body.loaded .loader-wrapper {
+            transform: translateY(-100%);
             opacity: 0;
-            visibility: hidden;
             pointer-events: none;
         }
 
-        body.loaded .loader-logo {
-            transform: scale(0.4) translateY(-250%); 
-            opacity: 0;
-        }
-        /* ----------------------------------- */
-
-        /* Navigation */
+        /* --- NAVIGATION --- */
         nav {
             background: #fff;
-            padding: 0.5rem 5%;
+            padding: 10px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        /* --- LOGO --- */
         .logo img {
-            height: 70px;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
-            transition: transform 0.3s;
-        }
-        
-        .logo img:hover {
-            transform: scale(1.05);
+            height: 60px;
+            transition: 0.3s;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--dark-text);
-            margin-left: 20px;
+            margin-left: 25px;
             font-weight: 600;
             transition: 0.3s;
         }
 
-        .nav-links a:hover {
-            color: var(--primary-red);
-        }
+        .nav-links a:hover { color: var(--primary-red); }
 
         .cta-btn {
             background: var(--primary-red);
-            color: white;
-            padding: 10px 20px;
+            color: white !important;
+            padding: 10px 25px;
             border-radius: 50px;
-            text-decoration: none;
             font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
+            transition: 0.3s;
         }
         
-        .cta-btn:hover {
-            background: #b71c1c;
-        }
+        .cta-btn:hover { background: var(--dark-red); transform: scale(1.05); }
 
-        /* Hero Section */
+        /* --- HERO SECTION --- */
         .hero-container {
             position: relative;
-            height: 85vh;
-            width: 100%;
-            overflow: hidden;
+            height: 80vh;
+            background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background-color: var(--primary-red);
+            overflow: hidden;
         }
 
         .hero-slide {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover; 
-            background-position: center center;
-            background-repeat: no-repeat;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
             opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            z-index: 1;
+            transition: opacity 1.2s ease-in-out;
         }
 
-        .hero-slide.active {
-            opacity: 1;
-        }
+        .hero-slide.active { opacity: 1; }
 
         .hero-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3); 
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
             z-index: 2;
         }
 
@@ -163,194 +144,81 @@
             z-index: 3;
             color: white;
             padding: 20px;
-            max-width: 800px;
-            margin-top: 100px; 
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            color: var(--primary-yellow);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            margin-bottom: 10px;
-        }
+        .hero h1 { font-size: 4rem; color: var(--primary-yellow); text-shadow: 3px 3px 10px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.3rem; margin-bottom: 30px; }
 
-        .hero h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
-
-        /* About Section */
-        .about {
-            padding: 80px 10%;
-            text-align: center;
-            background: #f9f9f9;
-        }
-
-        .about h2 {
-            color: var(--primary-red);
-            margin-bottom: 20px;
-            font-size: 2.5rem;
-        }
-
-        .about p {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            color: #555;
-        }
-
-        /* Product Section */
-        .product {
-            padding: 80px 10%;
-            text-align: center;
-        }
+        /* --- SECTIONS --- */
+        .about, .product, .contact { padding: 80px 10%; text-align: center; }
+        .about { background: #fefefe; }
+        .about h2, .product h2 { color: var(--primary-red); font-size: 2.5rem; margin-bottom: 20px; }
 
         .product-card {
             background: white;
             border: 2px solid var(--primary-yellow);
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 400px;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 350px;
             margin: 40px auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: 0.4s;
         }
 
-        .product-card:hover {
-            transform: translateY(-10px);
-        }
+        .product-card:hover { transform: translateY(-15px); }
 
-        .product-img {
-            width: 100%;
-            max-width: 250px;
-            margin-bottom: 20px;
-            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.2));
-        }
+        .product-img { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
 
-        .veg-mark {
-            color: green;
-            border: 2px solid green;
-            padding: 2px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
+        .price { font-size: 2.5rem; color: var(--primary-red); font-weight: 800; margin: 15px 0; }
 
-        .price {
-            font-size: 2rem;
-            color: var(--primary-red);
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        /* Features */
         .features {
             display: flex;
             justify-content: space-around;
-            padding: 50px 10%;
+            padding: 60px 10%;
             background: var(--primary-red);
             color: white;
             flex-wrap: wrap;
         }
 
-        .feature-box {
-            text-align: center;
-            margin: 20px;
-        }
+        .feature-box { margin: 20px; text-align: center; }
+        .feature-box i { font-size: 3.5rem; color: var(--primary-yellow); margin-bottom: 15px; }
 
-        .feature-box i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: var(--primary-yellow);
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 80px 10%;
-            background: #222;
-            color: white;
-            text-align: center;
-        }
-
+        /* --- CONTACT & FOOTER --- */
+        .contact { background: #1a1a1a; color: white; }
         .contact-info {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin: 40px 0;
         }
 
-        .contact-item-link {
-            text-decoration: none;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
+        .contact-item-link { color: white; text-decoration: none; transition: 0.3s; }
+        .contact-item-link:hover { color: var(--primary-yellow); }
+        .contact-item i { color: var(--primary-yellow); font-size: 1.8rem; margin-bottom: 10px; display: block; }
 
-        .contact-item-link:hover {
-            color: var(--primary-yellow);
-            transform: scale(1.05);
-        }
+        .social-link { color: white; font-size: 2.5rem; transition: 0.3s; }
+        .social-link:hover { color: #E1306C; transform: scale(1.2); }
 
-        .whatsapp-link:hover {
-            color: var(--whatsapp-green);
-        }
-
-        .contact-item {
-            color: white;
-            margin: 10px;
-            min-width: 150px;
-        }
-
-        .contact-item i {
-            color: var(--primary-yellow);
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .social-link {
-            color: white;
-            font-size: 2rem;
-            margin-top: 20px;
-            display: inline-block;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-        
-        .social-link:hover {
-            color: #E1306C;
-            transform: scale(1.2);
-        }
-
-        /* Mobile Responsive */
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero h2 { font-size: 1.2rem; }
-            .nav-links { display: none; }
-            .logo img { height: 50px; }
-            .hero-container { height: 60vh; } 
-            .hero-content { margin-top: 0; }
-            .loader-logo { height: 100px; }
+            .hero h1 { font-size: 2.8rem; }
+            .nav-links { display: none; } /* Mobile menu simplified for now */
+            .hero-container { height: 60vh; }
+            .loader-logo { height: 120px; }
         }
     </style>
 </head>
 <body>
 
     <div class="loader-wrapper">
-        <img src="logo.png" alt="Loading Logo" class="loader-logo">
+        <img src="logo.png" alt="Sip Sip Logo" class="loader-logo">
+        <p style="color: white; margin-top: 20px; font-weight: 600; letter-spacing: 2px; opacity: 0.8;">LOADING...</p>
     </div>
 
     <nav>
         <div class="logo">
-            <img src="logo.png" alt="Sip Sip Noodles Logo">
+            <img src="logo.png" alt="Sip Sip Noodles">
         </div>
         <div class="nav-links">
             <a href="#home">Home</a>
@@ -370,118 +238,74 @@
 
         <div class="hero-content">
             <h1>Sip Sip Noodles</h1>
-            <h2>"Sip Sip Karke Khao!"</h2>
-            <p><strong>Swaad Bhi, Sehat Bhi.</strong> <br> Ab bhook mitayein bas 2 minute mein.</p>
+            <p><strong>"Sip Sip Karke Khao!"</strong><br>Swaad Bhi, Sehat Bhi.</p>
             <a href="#product" class="cta-btn">Try Now</a>
         </div>
     </section>
 
     <section id="about" class="about">
         <h2>Humari Kahani</h2>
-        <p>
-            Swagat hai <strong>Sip Sip Noodles</strong> mein! <br><br>
-            Abhi haal hi mein shuru hui hamari ye company ek hi mission ke saath aayi hai - 
-            aap tak sabse tasty aur quality noodles pahunchana. 
-            Hamare founder, <strong>Mr. Kamal Bansal</strong> ka manna hai ki achha khana sabka haq hai.
-            Chahe aap school mein hon, office mein, ya ghar par late night craving ho, 
-            Sip Sip Noodles hamesha aapka saathi hai.
+        <p style="max-width: 700px; margin: 0 auto; color: #666;">
+            Swagat hai <strong>Sip Sip Noodles</strong> mein! Hamara mission hai aap tak sabse tasty aur high-quality noodles pahunchana. 
+            Mr. Kamal Bansal ki shuruat ki gayi ye company har umar ke logo ke liye bani hai.
         </p>
     </section>
 
     <section id="product" class="product">
         <h2>Hamara Star Product</h2>
         <div class="product-card">
-            <div class="veg-mark"><i class="fas fa-circle" style="font-size: 10px;"></i></div>
-            <img src="packet.png" alt="Masala Noodles Pack" class="product-img">
+            <img src="packet.png" alt="Masala Noodles" class="product-img">
             <h3>Masala Instant Noodles</h3>
-            <p>Zabardast Masala flavour jo mood bana de.</p>
-            <p><strong>Size:</strong> 70g</p>
+            <p>Zabardast flavour jo mood bana de.</p>
             <div class="price">₹ 10</div>
-            <a href="#contact" class="cta-btn" style="display: inline-block; margin-top: 10px;">Order Inquiry</a>
+            <a href="#contact" class="cta-btn" style="display: block;">Order Inquiry</a>
         </div>
     </section>
 
     <section class="features">
-        <div class="feature-box">
-            <i class="fas fa-clock"></i>
-            <h3>Instant Ready</h3>
-            <p>Bas ubaalo aur khao</p>
-        </div>
-        <div class="feature-box">
-            <i class="fas fa-utensils"></i>
-            <h3>Best Taste</h3>
-            <p>Asli masalo ka swaad</p>
-        </div>
-        <div class="feature-box">
-            <i class="fas fa-check-circle"></i>
-            <h3>Quality</h3>
-            <p>100% Veg & Fresh</p>
-        </div>
+        <div class="feature-box"><i class="fas fa-clock"></i><h3>2 Min Ready</h3></div>
+        <div class="feature-box"><i class="fas fa-utensils"></i><h3>Great Taste</h3></div>
+        <div class="feature-box"><i class="fas fa-leaf"></i><h3>100% Veg</h3></div>
     </section>
 
     <section id="contact" class="contact">
         <h2>Contact Us</h2>
-        <p>Distributorship ya bulk order ke liye sampark karein.</p>
-        
         <div class="contact-info">
             <div class="contact-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <p>VPO Fransi, Adampur Road,<br>Agroha (Hisar), Haryana</p>
+                <i class="fas fa-phone-alt"></i>
+                <a href="tel:+917014258374" class="contact-item-link">+91 7014258374</a>
             </div>
-
             <div class="contact-item">
-                <a href="tel:+917014258374" class="contact-item-link">
-                    <i class="fas fa-phone-alt"></i>
-                    <p>+91 7014258374</p>
-                </a>
+                <i class="fab fa-whatsapp"></i>
+                <a href="https://wa.me/917014258374" class="contact-item-link">WhatsApp</a>
             </div>
-
             <div class="contact-item">
-                <a href="https://wa.me/917014258374" target="_blank" class="contact-item-link whatsapp-link">
-                    <i class="fab fa-whatsapp"></i>
-                    <p>WhatsApp Chat</p>
-                </a>
-            </div>
-
-            <div class="contact-item">
-                <a href="mailto:sipsipnoodles00@gmail.com" class="contact-item-link">
-                    <i class="fas fa-envelope"></i>
-                    <p>sipsipnoodles00@gmail.com</p>
-                </a>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:sipsipnoodles00@gmail.com" class="contact-item-link">Email Us</a>
             </div>
         </div>
-
-        <a href="https://www.instagram.com/official_sipsipnoodles?igsh=OGEzMHVpcmRleGM=" target="_blank" class="social-link">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <p style="margin-top:10px;">Follow us on Instagram</p>
-        
-        <div style="margin-top: 40px; font-size: 0.8rem; opacity: 0.7;">
-            © 2026 Sip Sip Noodles. All Rights Reserved.
-        </div>
+        <a href="https://www.instagram.com/official_sipsipnoodles" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+        <p style="margin-top: 40px; opacity: 0.5;">© 2026 Sip Sip Noodles. Adampur Road, Haryana.</p>
     </section>
 
     <script>
-        // LOADING SCREEN LOGIC
+        // Smooth Loader Logic
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.body.classList.add('loaded');
-            }, 2000);
+            }, 2800); // 2.8 seconds for premium feel
         });
 
-        // Slideshow Logic
-        let slideIndex = 0;
+        // Slideshow
+        let current = 0;
         const slides = document.querySelectorAll('.hero-slide');
-
-        function changeSlide() {
-            if (slides.length > 0) {
-                slides[slideIndex].classList.remove('active');
-                slideIndex = (slideIndex + 1) % slides.length;
-                slides[slideIndex].classList.add('active');
-            }
-        }
-        setInterval(changeSlide, 3500);
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 4000);
     </script>
-
 </body>
 </html>
+    
+
