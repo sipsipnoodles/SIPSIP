@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <link rel="preload" as="image" href="logo.png">
     <link rel="preload" as="image" href="poster1.png">
 
     <style>
@@ -26,25 +27,37 @@
 
         body { line-height: 1.6; color: var(--dark-text); overflow-x: hidden; }
 
-        /* --- COOL LOADING SCREEN --- */
+        /* --- COOL LOADING SCREEN (IMPROVED) --- */
         .loader-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh;
             background: radial-gradient(circle, #2b0000 0%, #000000 100%);
             display: flex; justify-content: center; align-items: center;
             z-index: 9999;
-            transition: opacity 1s ease, visibility 1s;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
         }
 
         .loader-logo {
-            height: 150px;
-            filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.4));
-            animation: coolFloat 2.5s infinite ease-in-out;
+            height: 160px; /* Thoda size badhaya */
+            /* New Smooth Animation */
+            animation: breatheGlow 2s infinite ease-in-out; 
+            will-change: transform, filter; /* Browser ko ready rakhta hai animation ke liye */
         }
 
-        @keyframes coolFloat {
-            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(211,47,47,0.3)); }
-            50% { transform: translateY(-20px) scale(1.05); filter: drop-shadow(0 0 30px rgba(255,193,7,0.6)); }
+        /* New Badiya Animation */
+        @keyframes breatheGlow {
+            0% { 
+                transform: scale(0.95); 
+                filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.3)); 
+            }
+            50% { 
+                transform: scale(1.1); /* Smooth Zoom */
+                filter: drop-shadow(0 0 35px rgba(211, 47, 47, 0.8)); /* Strong Glow */
+            }
+            100% { 
+                transform: scale(0.95); 
+                filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.3)); 
+            }
         }
 
         body.loaded .loader-wrapper { opacity: 0; visibility: hidden; }
@@ -103,13 +116,13 @@
         .hero-content { position: relative; z-index: 3; color: white; padding: 20px; }
         .hero h1 { font-size: 3.5rem; color: var(--primary-yellow); text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
 
-        /* About Section - TEXT BADA KIYA HEI */
+        /* About Section */
         .about { padding: 80px 10%; text-align: center; background: #f9f9f9; }
         .about h2 { color: var(--primary-red); margin-bottom: 20px; font-size: 2.5rem; }
         .about p { 
             max-width: 850px; 
             margin: 0 auto; 
-            font-size: 1.25rem; /* 3% increase approx */
+            font-size: 1.25rem;
             color: #444; 
             line-height: 1.8;
         }
@@ -150,7 +163,7 @@
 <body>
 
     <div class="loader-wrapper">
-        <img src="logo.png" alt="Loading" class="loader-logo">
+        <img src="logo.png" alt="Loading" class="loader-logo" loading="eager">
     </div>
 
     <div class="modal-overlay" id="orderModal">
@@ -241,6 +254,7 @@
     <script>
         // Loader Logic
         window.addEventListener('load', () => {
+            // Thoda time badhaya taaki smooth animation dikh sake
             setTimeout(() => { document.body.classList.add('loaded'); }, 2500);
         });
 
@@ -260,7 +274,7 @@
     </script>
 </body>
 </html>
-    
+
 
 
 
