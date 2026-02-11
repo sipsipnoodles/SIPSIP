@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sip Sip Noodles - Swaad Bhi, Sehat Bhi</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <link rel="preload" as="image" href="poster1.png">
+
     <style>
         :root {
             --primary-red: #D32F2F;
-            --dark-red: #8b0000;
             --primary-yellow: #FFC107;
             --dark-text: #333;
             --light-bg: #fff;
@@ -19,207 +19,144 @@
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
         }
 
-        body {
-            line-height: 1.6;
-            color: var(--dark-text);
-            overflow-x: hidden;
-            background-color: #fff;
-        }
+        body { line-height: 1.6; color: var(--dark-text); overflow-x: hidden; }
 
-        /* --- LUXURY LOADING SCREEN --- */
+        /* --- COOL LOADING SCREEN --- */
         .loader-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            /* Premium Dark Gradient - Aankhon ko chubega nahi */
-            background: radial-gradient(circle, #2c0000 0%, #000000 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            /* Dark smooth background - No more white! */
+            background: radial-gradient(circle, #2b0000 0%, #000000 100%);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s;
         }
 
         .loader-logo {
-            height: 160px;
-            filter: drop-shadow(0 0 20px rgba(255, 193, 7, 0.3));
-            animation: logoEntrance 2.5s infinite ease-in-out;
-            will-change: transform, filter;
+            height: 150px;
+            filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.4));
+            animation: coolFloat 2.5s infinite ease-in-out;
         }
 
-        @keyframes logoEntrance {
-            0% { transform: scale(0.9); filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.2)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(255, 191, 0, 0.6)); }
-            100% { transform: scale(0.9); filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.2)); }
+        @keyframes coolFloat {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(211,47,47,0.3)); }
+            50% { transform: translateY(-20px) scale(1.05); filter: drop-shadow(0 0 30px rgba(255,193,7,0.6)); }
         }
 
-        /* Curtain Exit Animation */
-        body.loaded .loader-wrapper {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
+        body.loaded .loader-wrapper { opacity: 0; visibility: hidden; }
+
+        /* --- POPUP STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none; justify-content: center; align-items: center;
+            z-index: 10000;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 20px;
+            text-align: center; max-width: 400px; width: 90%;
+            border: 3px solid var(--primary-yellow);
+            animation: popIn 0.3s ease-out;
+        }
+        @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-content h3 { color: var(--primary-red); margin-bottom: 15px; }
+        .close-modal {
+            background: #eee; padding: 8px 20px; border-radius: 50px;
+            cursor: pointer; margin-top: 20px; display: inline-block; font-weight: bold;
         }
 
-        /* --- NAVIGATION --- */
+        /* Navigation */
         nav {
-            background: #fff;
-            padding: 10px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: #fff; padding: 0.5rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
         }
-
-        .logo img {
-            height: 60px;
-            transition: 0.3s;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark-text);
-            margin-left: 25px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
+        .logo img { height: 70px; transition: 0.3s; }
+        .nav-links a { text-decoration: none; color: var(--dark-text); margin-left: 20px; font-weight: 600; }
         .nav-links a:hover { color: var(--primary-red); }
 
         .cta-btn {
-            background: var(--primary-red);
-            color: white !important;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: 0.3s;
+            background: var(--primary-red); color: white; padding: 10px 20px;
+            border-radius: 50px; text-decoration: none; font-weight: bold;
+            border: none; cursor: pointer; transition: 0.3s; display: inline-block;
         }
-        
-        .cta-btn:hover { background: var(--dark-red); transform: scale(1.05); }
+        .cta-btn:hover { background: #b71c1c; transform: scale(1.05); }
 
-        /* --- HERO SECTION --- */
+        /* Hero Section */
         .hero-container {
-            position: relative;
-            height: 80vh;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
+            position: relative; height: 85vh; width: 100%; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; background-color: #000;
         }
-
         .hero-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.2s ease-in-out;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center; opacity: 0; transition: opacity 0.8s;
         }
-
         .hero-slide.active { opacity: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; color: white; padding: 20px; }
+        .hero h1 { font-size: 3.5rem; color: var(--primary-yellow); text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
 
-        .hero-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 2;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 3;
-            color: white;
-            padding: 20px;
-        }
-
-        .hero h1 { font-size: 4rem; color: var(--primary-yellow); text-shadow: 3px 3px 10px rgba(0,0,0,0.5); }
-        .hero p { font-size: 1.3rem; margin-bottom: 30px; }
-
-        /* --- SECTIONS --- */
-        .about, .product, .contact { padding: 80px 10%; text-align: center; }
-        .about { background: #fefefe; }
-        .about h2, .product h2 { color: var(--primary-red); font-size: 2.5rem; margin-bottom: 20px; }
-
+        /* About & Product (Original Text Kept) */
+        .about { padding: 80px 10%; text-align: center; background: #f9f9f9; }
+        .product { padding: 80px 10%; text-align: center; }
         .product-card {
-            background: white;
-            border: 2px solid var(--primary-yellow);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 350px;
-            margin: 40px auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: 0.4s;
+            background: white; border: 2px solid var(--primary-yellow);
+            border-radius: 15px; padding: 30px; max-width: 400px; margin: 40px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s;
         }
+        .product-img { width: 100%; max-width: 250px; margin-bottom: 20px; }
+        .veg-mark { color: green; border: 2px solid green; padding: 2px; display: inline-block; margin-bottom: 10px; }
+        .price { font-size: 2.5rem; color: var(--primary-red); font-weight: bold; }
 
-        .product-card:hover { transform: translateY(-15px); }
+        /* Features */
+        .features { display: flex; justify-content: space-around; padding: 50px 10%; background: var(--primary-red); color: white; flex-wrap: wrap; }
+        .feature-box { text-align: center; margin: 20px; }
+        .feature-box i { font-size: 3rem; margin-bottom: 15px; color: var(--primary-yellow); }
 
-        .product-img { width: 100%; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
+        /* Contact Section (Original Address Restored) */
+        .contact { padding: 80px 10%; background: #222; color: white; text-align: center; }
+        .contact-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 40px; }
+        .contact-item { min-width: 200px; }
+        .contact-item i { color: var(--primary-yellow); font-size: 1.5rem; margin-bottom: 10px; }
+        .social-link { color: white; font-size: 2.5rem; margin-top: 20px; display: inline-block; transition: 0.3s; }
+        .social-link:hover { color: #E1306C; }
 
-        .price { font-size: 2.5rem; color: var(--primary-red); font-weight: 800; margin: 15px 0; }
-
-        .features {
-            display: flex;
-            justify-content: space-around;
-            padding: 60px 10%;
-            background: var(--primary-red);
-            color: white;
-            flex-wrap: wrap;
-        }
-
-        .feature-box { margin: 20px; text-align: center; }
-        .feature-box i { font-size: 3.5rem; color: var(--primary-yellow); margin-bottom: 15px; }
-
-        /* --- CONTACT & FOOTER --- */
-        .contact { background: #1a1a1a; color: white; }
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            flex-wrap: wrap;
-            margin: 40px 0;
-        }
-
-        .contact-item-link { color: white; text-decoration: none; transition: 0.3s; }
-        .contact-item-link:hover { color: var(--primary-yellow); }
-        .contact-item i { color: var(--primary-yellow); font-size: 1.8rem; margin-bottom: 10px; display: block; }
-
-        .social-link { color: white; font-size: 2.5rem; transition: 0.3s; }
-        .social-link:hover { color: #E1306C; transform: scale(1.2); }
-
-        /* Mobile Adjustments */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.8rem; }
-            .nav-links { display: none; } /* Mobile menu simplified for now */
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; }
             .hero-container { height: 60vh; }
-            .loader-logo { height: 120px; }
+            .product-card { width: 95%; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div class="loader-wrapper">
-        <img src="logo.png" alt="Sip Sip Logo" class="loader-logo">
-        <p style="color: white; margin-top: 20px; font-weight: 600; letter-spacing: 2px; opacity: 0.8;">LOADING...</p>
+        <img src="logo.png" alt="Loading" class="loader-logo">
+    </div>
+
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-content">
+            <i class="fab fa-whatsapp" style="font-size: 3rem; color: var(--whatsapp-green);"></i>
+            <h3>Direct Inquiry?</h3>
+            <p>Kya aap humse WhatsApp par baat karna chahte hain?</p>
+            <a href="https://wa.me/917014258374" class="cta-btn" style="background: var(--whatsapp-green); margin-top: 15px;">Yes, Chat Now</a>
+            <br>
+            <div class="close-modal" onclick="closePopup()">Cancel</div>
+        </div>
     </div>
 
     <nav>
-        <div class="logo">
-            <img src="logo.png" alt="Sip Sip Noodles">
-        </div>
+        <div class="logo"><img src="logo.png" alt="Sip Sip"></div>
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#about">About</a>
@@ -233,79 +170,86 @@
         <div class="hero-slide" style="background-image: url('poster2.png');"></div>
         <div class="hero-slide" style="background-image: url('poster3.png');"></div>
         <div class="hero-slide" style="background-image: url('poster4.png');"></div>
-        
         <div class="hero-overlay"></div>
-
         <div class="hero-content">
             <h1>Sip Sip Noodles</h1>
-            <p><strong>"Sip Sip Karke Khao!"</strong><br>Swaad Bhi, Sehat Bhi.</p>
-            <a href="#product" class="cta-btn">Try Now</a>
+            <h2>"Sip Sip Karke Khao!"</h2>
+            <p><strong>Swaad Bhi, Sehat Bhi.</strong> <br> Ab bhook mitayein bas 2 minute mein.</p>
+            <button onclick="openPopup()" class="cta-btn">Try Now</button>
         </div>
     </section>
 
     <section id="about" class="about">
         <h2>Humari Kahani</h2>
-        <p style="max-width: 700px; margin: 0 auto; color: #666;">
-            Swagat hai <strong>Sip Sip Noodles</strong> mein! Hamara mission hai aap tak sabse tasty aur high-quality noodles pahunchana. 
-            Mr. Kamal Bansal ki shuruat ki gayi ye company har umar ke logo ke liye bani hai.
+        <p>
+            Swagat hai <strong>Sip Sip Noodles</strong> mein! <br><br>
+            Abhi haal hi mein shuru hui hamari ye company ek hi mission ke saath aayi hai - 
+            aap tak sabse tasty aur quality noodles pahunchana. 
+            Hamare founder, <strong>Mr. Kamal Bansal</strong> ka manna hai ki achha khana sabka haq hai.
         </p>
     </section>
 
     <section id="product" class="product">
         <h2>Hamara Star Product</h2>
         <div class="product-card">
+            <div class="veg-mark"><i class="fas fa-circle" style="font-size: 10px;"></i></div>
             <img src="packet.png" alt="Masala Noodles" class="product-img">
             <h3>Masala Instant Noodles</h3>
-            <p>Zabardast flavour jo mood bana de.</p>
+            <p>Zabardast Masala flavour jo mood bana de.</p>
+            <p><strong>Size:</strong> 70g</p>
             <div class="price">₹ 10</div>
-            <a href="#contact" class="cta-btn" style="display: block;">Order Inquiry</a>
+            <button onclick="openPopup()" class="cta-btn" style="margin-top:10px;">Order Inquiry</button>
         </div>
     </section>
 
     <section class="features">
-        <div class="feature-box"><i class="fas fa-clock"></i><h3>2 Min Ready</h3></div>
-        <div class="feature-box"><i class="fas fa-utensils"></i><h3>Great Taste</h3></div>
-        <div class="feature-box"><i class="fas fa-leaf"></i><h3>100% Veg</h3></div>
+        <div class="feature-box"><i class="fas fa-clock"></i><h3>Instant Ready</h3></div>
+        <div class="feature-box"><i class="fas fa-utensils"></i><h3>Best Taste</h3></div>
+        <div class="feature-box"><i class="fas fa-check-circle"></i><h3>100% Veg</h3></div>
     </section>
 
     <section id="contact" class="contact">
         <h2>Contact Us</h2>
         <div class="contact-info">
             <div class="contact-item">
-                <i class="fas fa-phone-alt"></i>
-                <a href="tel:+917014258374" class="contact-item-link">+91 7014258374</a>
+                <i class="fas fa-map-marker-alt"></i>
+                <p>VPO Fransi, Adampur Road,<br>Agroha (Hisar), Haryana</p>
             </div>
             <div class="contact-item">
-                <i class="fab fa-whatsapp"></i>
-                <a href="https://wa.me/917014258374" class="contact-item-link">WhatsApp</a>
+                <a href="tel:+917014258374" style="color:white; text-decoration:none;">
+                    <i class="fas fa-phone-alt"></i><p>+91 7014258374</p>
+                </a>
             </div>
-            <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:sipsipnoodles00@gmail.com" class="contact-item-link">Email Us</a>
+            <div class="contact-item" onclick="openPopup()" style="cursor:pointer;">
+                <i class="fab fa-whatsapp"></i><p>WhatsApp Chat</p>
             </div>
         </div>
         <a href="https://www.instagram.com/official_sipsipnoodles" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
-        <p style="margin-top: 40px; opacity: 0.5;">© 2026 Sip Sip Noodles. Adampur Road, Haryana.</p>
+        <p style="margin-top:20px; opacity:0.6;">© 2026 Sip Sip Noodles.</p>
     </section>
 
     <script>
-        // Smooth Loader Logic
+        // Loader Logic
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.body.classList.add('loaded');
-            }, 2800); // 2.8 seconds for premium feel
+            setTimeout(() => { document.body.classList.add('loaded'); }, 2500);
         });
 
-        // Slideshow
-        let current = 0;
+        // Popup Logic
+        function openPopup() { document.getElementById('orderModal').style.display = 'flex'; }
+        function closePopup() { document.getElementById('orderModal').style.display = 'none'; }
+
+        // Slideshow Logic
+        let slideIndex = 0;
         const slides = document.querySelectorAll('.hero-slide');
-        setInterval(() => {
-            slides[current].classList.remove('active');
-            current = (current + 1) % slides.length;
-            slides[current].classList.add('active');
-        }, 4000);
+        function changeSlide() {
+            slides[slideIndex].classList.remove('active');
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add('active');
+        }
+        setInterval(changeSlide, 3500);
     </script>
 </body>
 </html>
     
+
 
