@@ -30,7 +30,6 @@
         .loader-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh;
-            /* Dark smooth background - No more white! */
             background: radial-gradient(circle, #2b0000 0%, #000000 100%);
             display: flex; justify-content: center; align-items: center;
             z-index: 9999;
@@ -104,8 +103,18 @@
         .hero-content { position: relative; z-index: 3; color: white; padding: 20px; }
         .hero h1 { font-size: 3.5rem; color: var(--primary-yellow); text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
 
-        /* About & Product (Original Text Kept) */
+        /* About Section - TEXT BADA KIYA HEI */
         .about { padding: 80px 10%; text-align: center; background: #f9f9f9; }
+        .about h2 { color: var(--primary-red); margin-bottom: 20px; font-size: 2.5rem; }
+        .about p { 
+            max-width: 850px; 
+            margin: 0 auto; 
+            font-size: 1.25rem; /* 3% increase approx */
+            color: #444; 
+            line-height: 1.8;
+        }
+
+        /* Product Section */
         .product { padding: 80px 10%; text-align: center; }
         .product-card {
             background: white; border: 2px solid var(--primary-yellow);
@@ -121,7 +130,7 @@
         .feature-box { text-align: center; margin: 20px; }
         .feature-box i { font-size: 3rem; margin-bottom: 15px; color: var(--primary-yellow); }
 
-        /* Contact Section (Original Address Restored) */
+        /* Contact Section */
         .contact { padding: 80px 10%; background: #222; color: white; text-align: center; }
         .contact-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 40px; }
         .contact-item { min-width: 200px; }
@@ -134,7 +143,7 @@
             .hero h1 { font-size: 2.2rem; }
             .nav-links { display: none; }
             .hero-container { height: 60vh; }
-            .product-card { width: 95%; padding: 20px; }
+            .about p { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -147,11 +156,10 @@
     <div class="modal-overlay" id="orderModal">
         <div class="modal-content">
             <i class="fab fa-whatsapp" style="font-size: 3rem; color: var(--whatsapp-green);"></i>
-            <h3>Direct Inquiry?</h3>
-            <p>Kya aap humse WhatsApp par baat karna chahte hain?</p>
-            <a href="https://wa.me/917014258374" class="cta-btn" style="background: var(--whatsapp-green); margin-top: 15px;">Yes, Chat Now</a>
-            <br>
-            <div class="close-modal" onclick="closePopup()">Cancel</div>
+            <h3>Order Inquiry</h3>
+            <p>Direct WhatsApp par order ya distributorship ki detail lene ke liye niche click karein.</p>
+            <a href="https://wa.me/917014258374" target="_blank" class="cta-btn" style="background: var(--whatsapp-green); margin-top: 15px; display: block;">Yes, Chat Now</a>
+            <div class="close-modal" onclick="closePopup()">Nahi, Baad Mein</div>
         </div>
     </div>
 
@@ -185,7 +193,9 @@
             Swagat hai <strong>Sip Sip Noodles</strong> mein! <br><br>
             Abhi haal hi mein shuru hui hamari ye company ek hi mission ke saath aayi hai - 
             aap tak sabse tasty aur quality noodles pahunchana. 
-            Hamare founder, <strong>Mr. Kamal Bansal</strong> ka manna hai ki achha khana sabka haq hai.
+            Hamare founder, <strong>Mr. Kamal Bansal</strong> ka manna hai ki achha khana sabka haq hai. 
+            Chahe aap school mein hon, office mein, ya ghar par late night craving ho, 
+            Sip Sip Noodles hamesha aapka saathi hai.
         </p>
     </section>
 
@@ -224,7 +234,7 @@
                 <i class="fab fa-whatsapp"></i><p>WhatsApp Chat</p>
             </div>
         </div>
-        <a href="https://www.instagram.com/official_sipsipnoodles" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.instagram.com/official_sipsipnoodles?igsh=OGEzMHVpcmRleGM=" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
         <p style="margin-top:20px; opacity:0.6;">© 2026 Sip Sip Noodles.</p>
     </section>
 
@@ -251,5 +261,6 @@
 </body>
 </html>
     
+
 
 
