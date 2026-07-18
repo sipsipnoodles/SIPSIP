@@ -1,0 +1,15 @@
+{
+  "name": "sipsip-noodles",
+  "version": "1.0.0",
+  "description": "Sip Sip Noodles Website with Razorpay",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "razorpay": "^2.9.6"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.34.1"
+  }
+}
