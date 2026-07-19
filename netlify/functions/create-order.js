@@ -6,16 +6,32 @@ const razorpay = new Razorpay({
 });
 
 exports.handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({
+        error: "Method Not Allowed",
+      }),
+    };
+  }
+
   try {
     const { amount } = JSON.parse(event.body);
 
-    const options = {
-      amount: amount,
-      currency: "INR",
-      receipt: "receipt_" + Date.now(),
-    };
+    if (!amount || amount <= 0) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: "Invalid amount",
+        }),
+      };
+    }
 
-    const order = await razorpay.orders.create(options);
+    const order = await razorpay.orders.create({
+      amount,
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`,
+    });
 
     return {
       statusCode: 200,
