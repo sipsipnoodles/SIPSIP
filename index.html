@@ -196,7 +196,7 @@
             <h1>Sip Sip Noodles</h1>
             <h2>"Sip Sip Karke Khao!"</h2>
             <p><strong>Swaad Bhi, Sehat Bhi.</strong> <br> Ab bhook mitayein bas 3 minutes mein.</p>
-            <button onclick="openPopup()" class="cta-btn">Try Now</button>
+            <button onclick="startPayment()" class="cta-btn">Buy Now ₹10</button>
         </div>
     </section>
 
@@ -221,7 +221,9 @@
             <p>Zabardast Masala flavour jo mood bana de.</p>
             <p><strong>Size:</strong> 40g</p>
             <div class="price">₹ 10</div>
-            <button onclick="openPopup()" class="cta-btn" style="margin-top:10px;">Order Inquiry</button>
+            <button onclick="startPayment()" class="cta-btn">
+    Buy Now ₹10
+</button>
         </div>
     </section>
 
@@ -279,7 +281,62 @@ setInterval(()=>{
  slideIndex=(slideIndex+1)%slides.length;
  slides[slideIndex].classList.add('active');
 },3500);
+async function startPayment() {
+    try {
+
+        const response = await fetch("/api/create-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                amount: 1000
+            })
+        });
+
+        const order = await response.json();
+
+        const options = {
+            key: "YOUR_RAZORPAY_KEY_ID",
+            amount: order.amount,
+            currency: order.currency,
+            name: "Sip Sip Noodles",
+            description: "Masala Instant Noodles",
+            order_id: order.id,
+
+            handler: async function (response) {
+
+                const verify = await fetch("/api/verify-payment", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(response)
+                });
+
+                const result = await verify.json();
+
+                if (result.success) {
+                    alert("✅ Payment Successful");
+                } else {
+                    alert("❌ Payment Verification Failed");
+                }
+            },
+
+            theme: {
+                color: "#D32F2F"
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+    } catch (err) {
+        alert(err.message);
+    }
+}
 </script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>
 
